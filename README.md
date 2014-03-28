@@ -18,17 +18,6 @@ of the configuration issues of the original Yii2 base template.
  * Move `YII_DEBUG` and `YII_ENV` to configuration files
  * SiteController with login, logout, signup and password forget actions
 
-
-Installation
-------------
-
-You can install this application template using the following command:
-
-~~~
-composer create-project --prefer-dist --stability=dev mikehaertl/yii2-base-app .
-~~~
-
-
 Configuration
 -------------
 
@@ -46,7 +35,7 @@ Workflow
 
 To create a new application you will usually follow this workflow:
 
- 1. Install the template with `composer create-project --prefer-dist --stability dev mikehaertl/yii2-base-app .`
+ 1. Install the template with `composer create-project --prefer-dist --stability=dev mikehaertl/yii2-base-app .`
  2. Add optional dependencies to `composer.json` and run `composer update`
  3. Copy `config/local-example.php` to `config/local.php` and add local configuration (DB, etc.)
  4. Check `config/params.php`, `config/web.php` and `config/console.php` and add project wide configuration

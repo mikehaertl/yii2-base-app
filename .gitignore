@@ -1,3 +1,5 @@
 config/local.php
 config/console-local.php
+
 *.swp
+.vimrc

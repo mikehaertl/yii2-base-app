@@ -11,8 +11,10 @@ use yii\web\IdentityInterface;
  *
  * @property integer $id
  * @property string $username
+ * @property string $is_email_verified
  * @property string $password_hash
  * @property string $password_reset_token
+ * @property string $email_confirmation_token
  * @property string $email
  * @property string $auth_key
  * @property integer $role
@@ -85,9 +87,22 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @inheritdoc
      */
+    public function beforeSave($insert)
+    {
+        if ($this->isNewRecord) {
+            $this->generateAuthKey();
+            $this->generateEmailConfirmationToken();
+        }
+
+        return parent::beforeSave($insert);
+    }
+
+    /**
+     * @inheritdoc
+     */
     public static function findIdentity($id)
     {
-        return static::find($id)->one();
+        return static::findOne($id)->one();
     }
 
     /**
@@ -106,7 +121,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($username)
     {
-        return static::find(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**
@@ -125,11 +140,36 @@ class User extends ActiveRecord implements IdentityInterface
             return null;
         }
 
-        return static::find([
+        return static::findOne([
             'password_reset_token' => $token,
             'status' => self::STATUS_ACTIVE,
         ]);
     }
+
+    /**
+     * @param string $token the email confirmation token
+     * @return User|null the user with email confirmed or null on failure
+     */
+    public static function confirmEmailByToken($token)
+    {
+        $expire = \Yii::$app->params['user.emailConfirmationTokenExpire'];
+        $parts = explode('_', $token);
+        $timestamp = (int) end($parts);
+        if ($timestamp + $expire < time()) {
+            // token expired
+            return null;
+        }
+
+        $user = self::findOne(['email_confirmation_token' => $token]);
+        if ($user!==null) {
+            $user->email_confirmation_token = null;
+            $user->is_email_verified = 1;
+            if ($user->save()) {
+                return $user;
+            }
+        }
+    }
+
 
     /**
      * @inheritdoc
@@ -191,6 +231,14 @@ class User extends ActiveRecord implements IdentityInterface
     public function generateAuthKey()
     {
         $this->auth_key = Security::generateRandomKey();
+    }
+
+    /**
+     * Generates new email confirmation token
+     */
+    public function generateEmailConfirmationToken()
+    {
+        $this->email_confirmation_token = Security::generateRandomKey() . '_' . time();
     }
 
     /**

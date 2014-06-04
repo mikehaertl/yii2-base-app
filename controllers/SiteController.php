@@ -83,15 +83,36 @@ class SiteController extends Controller
         $user = new User(['scenario' => 'signup']);
         if ($user->load(Yii::$app->request->post())) {
             if ($user->save()) {
-                if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
-                }
+                $params = Yii::$app->params;
+                Yii::$app->mail->compose('confirmEmail', ['user' => $user])
+                    ->setFrom([$params['support.email'] => $params['support.name']])
+                    ->setTo($user->email)
+                    ->setSubject('Complete registration with ' . Yii::$app->name)
+                    ->send();
+                Yii::$app->session->setFlash('user-signed-up');
+                return $this->refresh();
             }
+        }
+
+        if (Yii::$app->session->hasFlash('user-signed-up')) {
+            return $this->render('signedUp');
         }
 
         return $this->render('signup', [
             'model' => $user,
         ]);
+    }
+
+    public function actionConfirmEmail($token)
+    {
+        $user = User::confirmEmailByToken($token);
+
+        if ($user!==null) {
+            Yii::$app->getUser()->login($user);
+            return $this->goHome();
+        }
+
+        return $this->render('emailConfirmationFailed');
     }
 
     public function actionRequestPasswordReset()

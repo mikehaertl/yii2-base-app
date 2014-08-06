@@ -12,5 +12,8 @@ return [
             'username' => 'myuser',
             'password' => 'mysecret',
         ],
+        'request' => [
+            'cookieValidationKey' => '',
+        ],
     ],
 ];

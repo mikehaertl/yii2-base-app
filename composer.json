@@ -1,6 +1,6 @@
 {
 	"name": "mikehaertl/yii2-base-app",
-	"description": "A Yii 2 Application Template for purists",
+	"description": "A Yii 2 Application Template For Purists",
 	"keywords": ["yii2", "framework", "application template"],
 	"type": "project",
 	"license": "MIT",
@@ -17,7 +17,9 @@
 	},
 	"scripts": {
 		"post-create-project-cmd": [
-			"yii\\composer\\Installer::setPermission"
+			"cp config/local-example.php config/local.php",
+			"yii\\composer\\Installer::setPermission",
+			"yii\\composer\\Installer::generateCookieValidationKey"
 		]
 	},
 	"config": {
@@ -30,6 +32,9 @@
 		],
 		"executable": [
 			"yii"
+		],
+		"config": [
+			"config/local.php"
 		]
 	}
 }

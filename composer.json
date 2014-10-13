@@ -4,12 +4,12 @@
 	"keywords": ["yii2", "framework", "application template"],
 	"type": "project",
 	"license": "MIT",
-	"minimum-stability": "dev",
+	"minimum-stability": "stable",
 	"require": {
 		"php": ">=5.4.0",
-		"yiisoft/yii2": "*",
-		"yiisoft/yii2-bootstrap": "*",
-		"yiisoft/yii2-swiftmailer": "*"
+		"yiisoft/yii2": "2.0.*",
+		"yiisoft/yii2-bootstrap": "2.0.*",
+		"yiisoft/yii2-swiftmailer": "2.0.*"
 	},
 	"require-dev": {
 		"yiisoft/yii2-debug": "*",
@@ -26,6 +26,10 @@
 		"process-timeout": 1800
 	},
 	"extra": {
+		"asset-installer-paths": {
+			"npm-asset-library": "vendor/npm",
+			"bower-asset-library": "vendor/bower"
+		},
 		"writable": [
 			"runtime",
 			"web/assets"

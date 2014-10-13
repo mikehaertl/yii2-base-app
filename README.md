@@ -32,6 +32,10 @@ All configuration lives in 4 (or 5) files in the `config/` directory.
 Workflow
 --------
 
+Before you can create new applications on a host, you first have to install the composer asset plugin:
+
+    composer global require "fxp/composer-asset-plugin:1.0.0-beta2"
+
 To create a new application you will usually follow this workflow:
 
  1. Install the template with `composer create-project --prefer-dist --stability=dev mikehaertl/yii2-base-app .`
@@ -47,6 +51,10 @@ committed to your project repository.
 
 > Note: After the `composer create-command` step a unique cookie validation key is automatically
 > generated and added to `config/local.php` for you.
+
+> Note 2: `composer update` above may fail with an error about github rate limit exceeded.
+> Have a look [here](https://getcomposer.org/doc/articles/troubleshooting.md#api-rate-limit-and-oauth-tokens)
+> for how to resolve this issue.
 
 Development
 -----------

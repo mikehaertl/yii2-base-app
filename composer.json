@@ -18,8 +18,7 @@
 	"scripts": {
 		"post-create-project-cmd": [
 			"php -r \"copy('config/local-example.php', 'config/local.php');\"",
-			"yii\\composer\\Installer::setPermission",
-			"yii\\composer\\Installer::generateCookieValidationKey"
+			"yii\\composer\\Installer::postCreateProject"
 		]
 	},
 	"config": {

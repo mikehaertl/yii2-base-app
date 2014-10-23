@@ -3,7 +3,7 @@
 return [
     'id' => $web['id'],
     'basePath' => $web['basePath'],
-    'preload' => ['log'],
+    'bootstrap' => ['log'],
     'controllerNamespace' => 'app\commands',
     'extensions' => $web['extensions'],
     'components' => [

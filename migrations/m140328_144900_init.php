@@ -9,7 +9,7 @@ class m140328_144900_init extends \yii\db\Migration
         $this->createTable('user', [
             'id' => Schema::TYPE_PK,
             'username' => Schema::TYPE_STRING . ' NOT NULL',
-            'is_email_verified' => Schema::TYPE_BOOLEAN . 'NOT NULL DEFAULT 0',
+            'is_email_verified' => Schema::TYPE_BOOLEAN . ' NOT NULL DEFAULT 0',
             'auth_key' => Schema::TYPE_STRING . '(32) NOT NULL',
             'password_hash' => Schema::TYPE_STRING . ' NOT NULL',
             'password_reset_token' => Schema::TYPE_STRING,

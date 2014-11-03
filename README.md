@@ -1,10 +1,6 @@
 Yii 2 Base App for Purists
 ==========================
 
-## WORK IN PROGRESS! USE AT YOUR OWN RISK.
-
-This is an Yii 2 application template with only the most basic features on board.
-
 Features
 --------
 
@@ -61,5 +57,3 @@ Development
 
 To keep this template updated with the latest package version, we should run `composer update`
 from time to time and then commit `composer.lock`.
-
-TBD: Add version constraints for yii2 in composer.json as soon as an official release is available.

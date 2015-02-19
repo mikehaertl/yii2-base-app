@@ -18,8 +18,8 @@ class m140328_144900_init extends \yii\db\Migration
             'role' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 10',
 
             'status' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 10',
-            'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
-            'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'created_at' => Schema::TYPE_DATETIME . ' NOT NULL',
+            'updated_at' => Schema::TYPE_DATETIME . ' NOT NULL',
         ], 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB');
     }
 

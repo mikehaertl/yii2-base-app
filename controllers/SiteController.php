@@ -13,6 +13,9 @@ use app\models\ResetPasswordForm;
 
 class SiteController extends Controller
 {
+    /**
+     * @inheritdoc
+     */
     public function behaviors()
     {
         return [
@@ -41,6 +44,9 @@ class SiteController extends Controller
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function actions()
     {
         return [
@@ -50,11 +56,17 @@ class SiteController extends Controller
         ];
     }
 
+    /**
+     * Render the homepage
+     */
     public function actionIndex()
     {
         return $this->render('index');
     }
 
+    /**
+     * User login
+     */
     public function actionLogin()
     {
         if (!\Yii::$app->user->isGuest) {
@@ -71,6 +83,9 @@ class SiteController extends Controller
         }
     }
 
+    /**
+     * User logout
+     */
     public function actionLogout()
     {
         Yii::$app->user->logout();
@@ -78,6 +93,9 @@ class SiteController extends Controller
         return $this->goHome();
     }
 
+    /**
+     * User signup
+     */
     public function actionSignup()
     {
         $user = new User(['scenario' => 'signup']);
@@ -103,11 +121,14 @@ class SiteController extends Controller
         ]);
     }
 
+    /**
+     * Confirm email
+     */
     public function actionConfirmEmail($token)
     {
-        $user = User::confirmEmailByToken($token);
+        $user = User::find()->emailConfirmationToken($token)->one();
 
-        if ($user!==null) {
+        if ($user!==null && $user->removeEmailConfirmationToken(true)) {
             Yii::$app->getUser()->login($user);
             return $this->goHome();
         }
@@ -115,6 +136,9 @@ class SiteController extends Controller
         return $this->render('emailConfirmationFailed');
     }
 
+    /**
+     * Request password reset
+     */
     public function actionRequestPasswordReset()
     {
         $model = new PasswordResetRequestForm();
@@ -133,6 +157,9 @@ class SiteController extends Controller
         ]);
     }
 
+    /**
+     * Reset password
+     */
     public function actionResetPassword($token)
     {
         try {

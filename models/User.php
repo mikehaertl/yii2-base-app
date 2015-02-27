@@ -120,30 +120,6 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     /**
-     * @param string $token the email confirmation token
-     * @return User|null the user with email confirmed or null on failure
-     */
-    public static function confirmEmailByToken($token)
-    {
-        $expire = \Yii::$app->params['user.emailConfirmationTokenExpire'];
-        $parts = explode('_', $token);
-        $timestamp = (int) end($parts);
-        if ($timestamp + $expire < time()) {
-            // token expired
-            return null;
-        }
-
-        $user = self::findOne(['email_confirmation_token' => $token]);
-        if ($user!==null) {
-            $user->email_confirmation_token = null;
-            $user->is_email_verified = 1;
-            if ($user->save()) {
-                return $user;
-            }
-        }
-    }
-
-    /**
      * @inheritdoc
      */
     public function getId()
@@ -225,10 +201,28 @@ class User extends ActiveRecord implements IdentityInterface
 
     /**
      * Removes password reset token
+     * @param bool $save whether to save the record. Default is `false`.
+     * @return bool|null whether the save was successful or null if $save was false.
      */
-    public function removePasswordResetToken()
+    public function removePasswordResetToken($save = false)
     {
         $this->password_reset_token = null;
+        if ($save) {
+            return $this->save();
+        }
     }
 
+    /**
+     * Removes email confirmation token and sets is_email_verified to true
+     * @param bool $save whether to save the record. Default is `false`.
+     * @return bool|null whether the save was successful or null if $save was false.
+     */
+    public function removeEmailConfirmationToken($save = false)
+    {
+        $this->email_confirmation_token = null;
+        $this->is_email_verified = 1;
+        if ($save) {
+            return $this->save();
+        }
+    }
 }
